@@ -14,5 +14,15 @@
         android:background="@android:color/transparent"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvDays"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:gravity="bottom">
+
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

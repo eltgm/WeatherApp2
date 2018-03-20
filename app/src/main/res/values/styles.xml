@@ -10,4 +10,15 @@
         <item name="android:background">@color/background</item>
     </style>
 
+    <style name="appbarSubText">
+        <item name="android:textColor">@color/subtitleColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="appbarText">
+        <item name="android:textColor">@color/appbarColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
