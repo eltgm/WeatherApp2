@@ -4,7 +4,10 @@ import android.os.Bundle;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 
+import java.util.List;
+
 import ru.home.eltgm.weatherapp.R;
+import ru.home.eltgm.weatherapp.models.weather.Message;
 import ru.home.eltgm.weatherapp.presentation.util.ViewUtil;
 
 /**
@@ -33,5 +36,10 @@ public class MainActivity extends MvpAppCompatActivity implements MainView{
         t.setNavigationIcon(R.drawable.ic_location_on_white_18dp);
         t.setTitleTextAppearance(this, R.style.appbarText);
         t.setSubtitleTextAppearance(this, R.style.appbarSubText);
+    }
+
+    @Override
+    public void showWeather(List<Message> weathers) {
+
     }
 }
