@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="3/19"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
@@ -20,17 +19,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Сегодня" />
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tvTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tvDay"
-        android:layout_below="@+id/tvDay"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvTemp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/weather"
-        app:srcCompat="@drawable/sunny" />
+        app:srcCompat="@drawable/o01d" />
 </RelativeLayout>
