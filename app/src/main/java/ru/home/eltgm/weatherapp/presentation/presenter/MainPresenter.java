@@ -27,6 +27,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mainInteractor.dispose();
         //TODO отвязка от источиков данных
     }
 
