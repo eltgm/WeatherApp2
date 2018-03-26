@@ -1,7 +1,6 @@
 package ru.home.eltgm.weatherapp.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
 import io.reactivex.observers.DisposableObserver;
 import ru.home.eltgm.weatherapp.domain.main.MainInteractor;
@@ -13,7 +12,7 @@ import ru.home.eltgm.weatherapp.presentation.view.MainView;
  */
 
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> {
+public class MainPresenter extends BasePresenter<MainView> {
 
     private final MainInteractor mainInteractor = new MainInteractor();
 
@@ -25,10 +24,9 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mainInteractor.dispose();
+    public void disconnect() {
         //TODO отвязка от источиков данных
+        mainInteractor.dispose();
     }
 
     private final class WeatherListObserver extends DisposableObserver<Message> {
@@ -41,6 +39,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
         @Override
         public void onError(Throwable e) {
             getViewState().showError(e.toString());
+            getViewState().stopRefresh();
         }
 
         @Override

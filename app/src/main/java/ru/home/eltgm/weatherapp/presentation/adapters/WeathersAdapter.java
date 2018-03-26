@@ -11,10 +11,12 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.home.eltgm.weatherapp.R;
+import ru.home.eltgm.weatherapp.models.weather.List;
 import ru.home.eltgm.weatherapp.models.weather.Message;
 import ru.home.eltgm.weatherapp.presentation.util.DaysOfWeek;
 
@@ -24,6 +26,7 @@ import ru.home.eltgm.weatherapp.presentation.util.DaysOfWeek;
 
 public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHolder> {
 
+    private int dif = 0;
     private Message weathers;
 
     @Override
@@ -33,11 +36,11 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
                 .inflate(R.layout.day_item_layout, parent, false);
 
         ViewHolder h = new ViewHolder(v);
-        final int pos = h.getAdapterPosition();
+        //final int pos = h.getAdapterPosition();
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ru.home.eltgm.weatherapp.models.weather.List w = weathers.getList().get(pos);
+                //ru.home.eltgm.weatherapp.models.weather.List w = weathers.getList().get(pos);
 
                 //TODO обработка нажатия на день
             }
@@ -48,9 +51,11 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ru.home.eltgm.weatherapp.models.weather.List weather = weathers.getList().get(position);
 
-        Date d = new Date(weather.getDt().longValue() * 1000);
+
+        ru.home.eltgm.weatherapp.models.weather.List nightWeather = weathers.getList().get(position + dif);
+
+        Date d = new Date(nightWeather.getDt().longValue() * 1000);
         Calendar c = new GregorianCalendar();
         c.setTime(d);
 
@@ -80,13 +85,20 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
         }
 
         holder.setDay(dayOfWeek);
-        holder.setDate(weather.getDtTxt().substring(6, 10));
+        holder.setDate(nightWeather.getDtTxt().substring(6, 10));
+
+        List dayWeather = weathers.getList().get(position + 1 + dif);
+
+        Double night = nightWeather.getMain().getTempMin() - 273.15;
+        Double day = dayWeather.getMain().getTempMax() - 273.15;
+        holder.setTemp(String.format(Locale.ROOT, "%d/%d", Math.round(day), Math.round(night)));
+        dif++;
     }
 
     @Override
     public int getItemCount() {
         if (weathers != null)
-            return weathers.getList().size();
+            return weathers.getList().size() / 2;
         return 0;
     }
 
@@ -123,7 +135,7 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
             this.imageView.setImageDrawable(image);
         }
 
-        public void setTemp(String tvTemp) {
+        void setTemp(String tvTemp) {
             this.tvTemp.setText(tvTemp);
         }
     }

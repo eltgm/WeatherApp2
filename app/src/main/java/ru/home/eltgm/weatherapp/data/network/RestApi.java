@@ -27,6 +27,6 @@ public class RestApi {
 
     public Observable<Message> getWeather() {
         WeatherApi api = retrofit.create(WeatherApi.class);
-        return api.getWeathers("Moscow", "ru", "metric", "96fe47a7f97d2800464e51d37cf3f0f4");
+        return api.getWeathers("Moscow", "ru", "96fe47a7f97d2800464e51d37cf3f0f4");
     }
 }

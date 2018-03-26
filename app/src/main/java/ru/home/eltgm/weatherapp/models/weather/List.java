@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class List {
 
+    private int time;
+
     @SerializedName("dt")
     @Expose
     private Integer dt;
@@ -107,4 +109,7 @@ public class List {
         this.snow = snow;
     }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
 }
