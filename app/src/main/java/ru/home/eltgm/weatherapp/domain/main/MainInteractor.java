@@ -19,10 +19,11 @@ import ru.home.eltgm.weatherapp.repositories.WeatherRepository;
 
 public class MainInteractor {
     private final CompositeDisposable disposables;
-    private WeatherRepository weatherRepository = new WeatherRepository();
+    private final WeatherRepository weatherRepository;
 
-    public MainInteractor() {
+    public MainInteractor(WeatherRepository weatherRepository) {
         this.disposables = new CompositeDisposable();
+        this.weatherRepository = weatherRepository;
     }
 
     public void dispose() {
@@ -38,8 +39,8 @@ public class MainInteractor {
         disposables.add(disposable);
     }
 
-    public void getWeathers(DisposableObserver<Message> observer) {
-        final Observable<Message> observable = weatherRepository.getWeathers()
+    public void getWeathers(DisposableObserver<Message> observer, boolean isRefresh) {
+        final Observable<Message> observable = weatherRepository.getWeathers(isRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Message, Message>() {
@@ -52,26 +53,33 @@ public class MainInteractor {
                         for (List l :
                                 weathers) {
                             if ((l.getDtTxt().subSequence(11, 13).toString().equals("18") || l.getDtTxt().subSequence(11, 13).toString().equals("03")) && count != 0) {
-                                if (l.getDtTxt().subSequence(11, 13).toString().equals("18"))
-                                    l.setTime(1);
-                                else
-                                    l.setTime(0);
-
                                 newWeathers.add(l);
                             }
                             count++;
                         }
                         CharSequence ch = newWeathers.get(0).getDtTxt().substring(0, 10);
-                        for (int i = 0; i < newWeathers.size(); i++) {
-                            if (newWeathers.get(i).getDtTxt().subSequence(0, 10).equals(ch))
-                                newWeathers.remove(i);
-                        }
-                        newWeathers.remove(newWeathers.size() - 1);
+                        CharSequence time = newWeathers.get(0).getDtTxt().substring(11, 13);
+                        if (!time.equals("03"))
+                            for (int i = 0; i < newWeathers.size(); i++) {
+                                if (newWeathers.get(i).getDtTxt().subSequence(0, 10).equals(ch))
+                                    newWeathers.remove(i);
+                            }
+
+                        if (newWeathers.get(newWeathers.size() - 1).getDtTxt().substring(11, 13).equals("03"))
+                            newWeathers.remove(newWeathers.size() - 1);
                         message.setList(newWeathers);
                         return message;
                     }
                 });
 
+        addDisposable(observable
+                .subscribeWith(observer));
+    }
+
+    public void getNowInfo(DisposableObserver<java.util.List<List>> observer) {
+        Observable<java.util.List<List>> observable = weatherRepository.getNowForecast()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
         addDisposable(observable
                 .subscribeWith(observer));
     }

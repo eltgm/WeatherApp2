@@ -2,6 +2,7 @@ package ru.home.eltgm.weatherapp.repositories;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import ru.home.eltgm.weatherapp.models.weather.List;
 import ru.home.eltgm.weatherapp.models.weather.Message;
 
 /**
@@ -9,14 +10,41 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
  */
 
 public class WeatherRepository {
-    private WeatherDataStore networkWeatherDataStore = new NetworkWeatherDataStore();
+    private final WeatherDataStore networkWeatherDataStore;
+    private final WeatherDataStore cacheWeatherDataStore;
 
-    public Observable<Message> getWeathers() {
-        return networkWeatherDataStore.weathersList().doOnNext(new Consumer<Message>() {
-            @Override
-            public void accept(Message message) throws Exception {
+    public WeatherRepository(WeatherDataStore networkWeatherDataStore, WeatherDataStore cacheWeatherDataStore) {
+        this.networkWeatherDataStore = networkWeatherDataStore;
+        this.cacheWeatherDataStore = cacheWeatherDataStore;
+    }
 
-            }
-        });
+    public Observable<Message> getWeathers(boolean isRefresh) {
+        Observable<Message> observable;
+        if (isRefresh) {
+            observable = networkWeatherDataStore.weathersList().doOnNext(new Consumer<Message>() {
+                @Override
+                public void accept(Message message) throws Exception {
+                    cacheWeatherDataStore.put(message);
+                }
+            });
+
+            return observable;
+        }
+
+        if (!cacheWeatherDataStore.isCached())
+            observable = networkWeatherDataStore.weathersList().doOnNext(new Consumer<Message>() {
+                @Override
+                public void accept(Message message) throws Exception {
+                    cacheWeatherDataStore.put(message);
+                }
+            });
+        else
+            observable = cacheWeatherDataStore.weathersList();
+
+        return observable;
+    }
+
+    public Observable<java.util.List<List>> getNowForecast() {
+        return cacheWeatherDataStore.dayInfo(0);
     }
 }

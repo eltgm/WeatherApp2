@@ -11,7 +11,11 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
 
 public class NetworkWeatherDataStore implements WeatherDataStore {
 
-    private RestApi restApi = new RestApi();
+    private final RestApi restApi;
+
+    public NetworkWeatherDataStore(RestApi restApi) {
+        this.restApi = restApi;
+    }
 
     @Override
     public Observable<Message> weathersList() {
@@ -19,7 +23,17 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<List> dayInfo(long time) {
-        return null;
+    public Observable<java.util.List<List>> dayInfo(int day) {
+        throw new UnsupportedOperationException("Operation is not available!!!");
+    }
+
+    @Override
+    public void put(Message message) {
+        throw new UnsupportedOperationException("Operation is not available!!!");
+    }
+
+    @Override
+    public boolean isCached() {
+        throw new UnsupportedOperationException("Operation is not available!!!");
     }
 }

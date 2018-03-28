@@ -1,5 +1,6 @@
 package ru.home.eltgm.weatherapp.presentation.adapters;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,11 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
 
     private int dif = 0;
     private Message weathers;
+    private Context context;
+
+    public WeathersAdapter(Context context) {
+        this.context = context;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,7 +57,6 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
 
         ru.home.eltgm.weatherapp.models.weather.List nightWeather = weathers.getList().get(position + dif);
 
@@ -84,15 +89,83 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
                 break;
         }
 
+
         holder.setDay(dayOfWeek);
         holder.setDate(nightWeather.getDtTxt().substring(6, 10));
 
         List dayWeather = weathers.getList().get(position + 1 + dif);
 
-        Double night = nightWeather.getMain().getTempMin() - 273.15;
-        Double day = dayWeather.getMain().getTempMax() - 273.15;
+        Drawable icon = iconInit(dayWeather.getWeather().get(0).getIcon());
+
+
+        holder.setDescriptionImage(icon);
+        Double night = nightWeather.getMain().getTempMin();
+        Double day = dayWeather.getMain().getTempMax();
         holder.setTemp(String.format(Locale.ROOT, "%d/%d", Math.round(day), Math.round(night)));
         dif++;
+    }
+
+    private Drawable iconInit(String iconName) {
+        Drawable icon = null;
+
+        switch (iconName) {
+            case "01d":
+                icon = context.getDrawable(R.drawable.o01d);
+                break;
+            case "02d":
+                icon = context.getDrawable(R.drawable.o02d);
+                break;
+            case "03d":
+                icon = context.getDrawable(R.drawable.o03d);
+                break;
+            case "04d":
+                icon = context.getDrawable(R.drawable.o04d);
+                break;
+            case "09d":
+                icon = context.getDrawable(R.drawable.o09d);
+                break;
+            case "10d":
+                icon = context.getDrawable(R.drawable.o10d);
+                break;
+            case "11d":
+                icon = context.getDrawable(R.drawable.o11d);
+                break;
+            case "13d":
+                icon = context.getDrawable(R.drawable.o13d);
+                break;
+            case "50d":
+                icon = context.getDrawable(R.drawable.o50d);
+                break;
+            case "01n":
+                icon = context.getDrawable(R.drawable.o01d);
+                break;
+            case "02n":
+                icon = context.getDrawable(R.drawable.o02d);
+                break;
+            case "03n":
+                icon = context.getDrawable(R.drawable.o03d);
+                break;
+            case "04n":
+                icon = context.getDrawable(R.drawable.o04d);
+                break;
+            case "09n":
+                icon = context.getDrawable(R.drawable.o09d);
+                break;
+            case "10n":
+                icon = context.getDrawable(R.drawable.o10d);
+                break;
+            case "11n":
+                icon = context.getDrawable(R.drawable.o11d);
+                break;
+            case "13n":
+                icon = context.getDrawable(R.drawable.o13d);
+                break;
+            case "50":
+                icon = context.getDrawable(R.drawable.o50d);
+                break;
+        }
+
+        return icon;
     }
 
     @Override

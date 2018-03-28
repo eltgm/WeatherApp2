@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,7 +22,6 @@
         android:layout_alignStart="@+id/tvTemp"
         android:layout_alignTop="@+id/tvTemp"
         android:layout_marginTop="44dp"
-        android:text="Пасмурно"
         android:textSize="24sp" />
 
     <TextView
@@ -32,9 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/rvDays"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="110dp"
-        android:layout_marginStart="8dp"
-        android:text="-50°"
+        android:layout_marginBottom="150dp"
+        android:layout_marginStart="18dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="34sp"
         android:textStyle="bold" />
@@ -50,11 +47,11 @@
     </android.support.v7.widget.RecyclerView>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tvTemp"
         android:layout_toEndOf="@+id/tvMainWeather"
-        app:srcCompat="@drawable/o01d" />
+        android:contentDescription="@string/weather" />
 </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

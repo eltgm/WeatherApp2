@@ -13,5 +13,5 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
 
 public interface WeatherApi {
     @GET("/data/2.5/forecast")
-    Observable<Message> getWeathers(@Query("q") String city, @Query("lang") String lang, @Query("appid") String appid);
+    Observable<Message> getWeathers(@Query("q") String city, @Query("lang") String lang, @Query("units") String units, @Query("appid") String appid);
 }
