@@ -80,6 +80,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showWeather(Message weathers) {
         initToolbar(weathers.getCity().getName());
+        weathersAdapter.setNull();
         weathersAdapter.addWeathers(weathers);
     }
 

@@ -19,8 +19,8 @@ public class WeatherRepository {
     }
 
     public Observable<Message> getWeathers(boolean isRefresh) {
-        Observable<Message> observable;
-        if (isRefresh) {
+        Observable<Message> observable = null;
+        if (isRefresh)
             observable = networkWeatherDataStore.weathersList().doOnNext(new Consumer<Message>() {
                 @Override
                 public void accept(Message message) throws Exception {
@@ -28,17 +28,14 @@ public class WeatherRepository {
                 }
             });
 
-            return observable;
-        }
-
-        if (!cacheWeatherDataStore.isCached())
+        if (!cacheWeatherDataStore.isCached() && !isRefresh)
             observable = networkWeatherDataStore.weathersList().doOnNext(new Consumer<Message>() {
                 @Override
                 public void accept(Message message) throws Exception {
                     cacheWeatherDataStore.put(message);
                 }
             });
-        else
+        else if (!isRefresh)
             observable = cacheWeatherDataStore.weathersList();
 
         return observable;

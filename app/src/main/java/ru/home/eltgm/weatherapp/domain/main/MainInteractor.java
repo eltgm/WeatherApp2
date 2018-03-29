@@ -28,8 +28,10 @@ public class MainInteractor {
 
     public void dispose() {
         if (!disposables.isDisposed()) {
-            disposables.dispose();
+            disposables.clear();
         }
+
+        String s = "t";
     }
 
     /**
@@ -40,7 +42,7 @@ public class MainInteractor {
     }
 
     public void getWeathers(DisposableObserver<Message> observer, boolean isRefresh) {
-        final Observable<Message> observable = weatherRepository.getWeathers(isRefresh)
+        addDisposable(weatherRepository.getWeathers(isRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Message, Message>() {
@@ -70,9 +72,7 @@ public class MainInteractor {
                         message.setList(newWeathers);
                         return message;
                     }
-                });
-
-        addDisposable(observable
+                })
                 .subscribeWith(observer));
     }
 

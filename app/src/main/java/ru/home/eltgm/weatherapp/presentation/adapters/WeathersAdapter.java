@@ -55,6 +55,10 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
         return h;
     }
 
+    public void setNull() {
+        dif = 0;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -204,7 +208,7 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
             this.tvDay.setText(tvDay);
         }
 
-        public void setDescriptionImage(Drawable image) {
+        void setDescriptionImage(Drawable image) {
             this.imageView.setImageDrawable(image);
         }
 
