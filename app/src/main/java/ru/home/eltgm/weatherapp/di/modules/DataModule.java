@@ -1,5 +1,6 @@
 package ru.home.eltgm.weatherapp.di.modules;
 
+import android.content.Context;
 import android.util.LruCache;
 
 import javax.inject.Singleton;
@@ -11,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.home.eltgm.weatherapp.data.cache.CacheImpl;
+import ru.home.eltgm.weatherapp.data.database.DbHelper;
 import ru.home.eltgm.weatherapp.data.network.RestApi;
 import ru.home.eltgm.weatherapp.models.weather.Message;
 
@@ -26,6 +28,12 @@ public class DataModule {
     @Provides
     public CacheImpl provideCache() {
         return new CacheImpl(new LruCache<String, Message>(1));
+    }
+
+    @Singleton
+    @Provides
+    public DbHelper provideDbHelper(Context context) {
+        return new DbHelper(context);
     }
 
     @Provides

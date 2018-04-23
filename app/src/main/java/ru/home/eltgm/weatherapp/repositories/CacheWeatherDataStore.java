@@ -17,7 +17,7 @@ public class CacheWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<Message> weathersList() {
+    public Observable<Message> weathersList(String cityName) {
         return cache.getAllInfo();
     }
 

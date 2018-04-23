@@ -18,7 +18,7 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<Message> weathersList() {
+    public Observable<Message> weathersList(String cityName) {
         return restApi.getWeather();
     }
 

@@ -9,6 +9,8 @@ public class List {
 
     private int time;
 
+    public static class ListList extends ArrayList<List> {
+    }
     @SerializedName("dt")
     @Expose
     private Integer dt;

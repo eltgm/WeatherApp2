@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class Message {
 
+    private long date;
+
+
     @SerializedName("cod")
     @Expose
     private String cod;
@@ -63,4 +66,11 @@ public class Message {
         this.city = city;
     }
 
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
 }

@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import ru.home.eltgm.weatherapp.di.scopes.RepositoryScope;
 import ru.home.eltgm.weatherapp.repositories.CacheWeatherDataStore;
+import ru.home.eltgm.weatherapp.repositories.DatabaseWeatherDataStore;
 import ru.home.eltgm.weatherapp.repositories.NetworkWeatherDataStore;
 import ru.home.eltgm.weatherapp.repositories.WeatherRepository;
 
@@ -16,7 +17,7 @@ public class RepositoryModule {
 
     @Provides
     @RepositoryScope
-    public WeatherRepository provideWeatherRepository(CacheWeatherDataStore cacheWeatherDataStore, NetworkWeatherDataStore networkWeatherDataStore) {
-        return new WeatherRepository(networkWeatherDataStore, cacheWeatherDataStore);
+    public WeatherRepository provideWeatherRepository(CacheWeatherDataStore cacheWeatherDataStore, NetworkWeatherDataStore networkWeatherDataStore, DatabaseWeatherDataStore databaseWeatherDataStore) {
+        return new WeatherRepository(networkWeatherDataStore, cacheWeatherDataStore, databaseWeatherDataStore);
     }
 }

@@ -28,29 +28,32 @@ public class CacheImpl implements Cache {
 
     @Override
     public Observable<java.util.List<List>> getDayInfo(int day) {
-        Message m = weathersCache.get(KEY);
-        if (day == 0)
-            return Observable.fromArray(Collections.singletonList(m.getList().get(0)));
-        else {
-            java.util.List<List> forecast = new ArrayList<>();
-            int count = 0;
-            List l = m.getList().get(0);
-            CharSequence date = l.getDtTxt().substring(0, 10);
-            for (int i = 1; i < m.getList().size(); i++) {
-                List data = m.getList().get(i);
-                if (count == day - 1) {
-                    for (int j = i; j < 8; j++) {
-                        forecast.add(m.getList().get(j));
+        if (weathersCache.get(KEY) != null) {
+            Message m = weathersCache.get(KEY);
+            if (day == 0)
+                //noinspection unchecked
+                return Observable.fromArray(Collections.singletonList(m.getList().get(0)));
+            else {
+                java.util.List<List> forecast = new ArrayList<>();
+                int count = 0;
+                List l = m.getList().get(0);
+                CharSequence date = l.getDtTxt().substring(0, 10);
+                for (int i = 1; i < m.getList().size(); i++) {
+                    List data = m.getList().get(i);
+                    if (count == day - 1) {
+                        for (int j = i; j < 8; j++) {
+                            forecast.add(m.getList().get(j));
+                        }
+                        return Observable.fromArray(forecast);
                     }
-                    return Observable.fromArray(forecast);
-                }
 
-                if (data.getDtTxt().equals(date))
-                    continue;
-                else {
-                    count++;
-                    i += 8;
-                    break;
+                    if (data.getDtTxt().equals(date))
+                        continue;
+                    else {
+                        count++;
+                        i += 8;
+                        break;
+                    }
                 }
             }
         }

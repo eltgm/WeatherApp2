@@ -3,9 +3,11 @@ package ru.home.eltgm.weatherapp.di.modules;
 import dagger.Module;
 import dagger.Provides;
 import ru.home.eltgm.weatherapp.data.cache.CacheImpl;
+import ru.home.eltgm.weatherapp.data.database.DbHelper;
 import ru.home.eltgm.weatherapp.data.network.RestApi;
 import ru.home.eltgm.weatherapp.di.scopes.DataIMPLScope;
 import ru.home.eltgm.weatherapp.repositories.CacheWeatherDataStore;
+import ru.home.eltgm.weatherapp.repositories.DatabaseWeatherDataStore;
 import ru.home.eltgm.weatherapp.repositories.NetworkWeatherDataStore;
 
 /**
@@ -14,6 +16,12 @@ import ru.home.eltgm.weatherapp.repositories.NetworkWeatherDataStore;
 
 @Module
 public class DataImplModule {
+
+    @Provides
+    @DataIMPLScope
+    public DatabaseWeatherDataStore provideDatabaseWeatherDataStore(DbHelper dbHelper) {
+        return new DatabaseWeatherDataStore(dbHelper);
+    }
 
     @Provides
     @DataIMPLScope

@@ -47,7 +47,7 @@ public class MainInteractor {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Message, Message>() {
                     @Override
-                    public Message apply(Message message) throws Exception {
+                    public Message apply(Message message) {
                         java.util.List<List> weathers = message.getList();
                         java.util.List<List> newWeathers = new ArrayList<>();
 

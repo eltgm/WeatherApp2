@@ -1,9 +1,12 @@
 package ru.home.eltgm.weatherapp.di.components;
 
+import android.content.Context;
+
 import dagger.Component;
 import ru.home.eltgm.weatherapp.di.modules.DataImplModule;
 import ru.home.eltgm.weatherapp.di.scopes.DataIMPLScope;
 import ru.home.eltgm.weatherapp.repositories.CacheWeatherDataStore;
+import ru.home.eltgm.weatherapp.repositories.DatabaseWeatherDataStore;
 import ru.home.eltgm.weatherapp.repositories.NetworkWeatherDataStore;
 
 /**
@@ -16,4 +19,8 @@ public interface DataImplComponent {
     CacheWeatherDataStore provideCacheWeatherDataStore();
 
     NetworkWeatherDataStore provideNetworkWeatherDataStore();
+
+    DatabaseWeatherDataStore provideDatabaseWeatherDataStore();
+
+    Context provideContext();
 }

@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
 import ru.home.eltgm.weatherapp.presentation.adapters.WeathersAdapter;
 import ru.home.eltgm.weatherapp.presentation.presenter.MainPresenter;
 import ru.home.eltgm.weatherapp.presentation.util.ViewUtil;
+
 
 /**
  * Created by eltgm on 19.03.18
@@ -48,6 +50,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+
         ButterKnife.bind(this);
 
         initViews();
@@ -105,12 +109,14 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showError(String error) {
         Toast.makeText(this, "Произошла ошибка - " + error, Toast.LENGTH_SHORT).show();
+        Log.d("WTF", "showError: " + error);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+
     }
 
     private Drawable iconInit(String iconName) {
