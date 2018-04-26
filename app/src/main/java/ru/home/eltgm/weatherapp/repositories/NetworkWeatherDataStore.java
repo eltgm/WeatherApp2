@@ -1,6 +1,7 @@
 package ru.home.eltgm.weatherapp.repositories;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import ru.home.eltgm.weatherapp.data.network.RestApi;
 import ru.home.eltgm.weatherapp.models.weather.List;
 import ru.home.eltgm.weatherapp.models.weather.Message;
@@ -19,7 +20,13 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
 
     @Override
     public Observable<Message> weathersList(String cityName) {
-        return restApi.getWeather();
+        return restApi.getWeather()
+                .doOnNext(new Consumer<Message>() {
+                    @Override
+                    public void accept(Message message) {
+                        message.setDate(0);
+                    }
+                });
     }
 
     @Override

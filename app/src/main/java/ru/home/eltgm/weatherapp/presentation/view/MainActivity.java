@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -44,6 +46,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     TextView tvTemp;
     @BindView(R.id.ivIcon)
     ImageView ivIcon;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     private WeathersAdapter weathersAdapter;
 
     @Override
@@ -73,12 +78,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     }
 
     private void initToolbar(String cityName) {
-        Toolbar t = findViewById(R.id.toolbar);
-        t.setPadding(ViewUtil.dpToPx(5), ViewUtil.dpToPx(15), 0, 0);
-        t.setTitle(cityName);
-        t.setNavigationIcon(R.drawable.ic_location_on_white_18dp);
-        t.setTitleTextAppearance(this, R.style.appbarText);
-        t.setSubtitleTextAppearance(this, R.style.appbarSubText);
+        toolbar.setPadding(ViewUtil.dpToPx(5), ViewUtil.dpToPx(15), 0, 0);
+        toolbar.setTitle(cityName);
+        toolbar.setNavigationIcon(R.drawable.ic_location_on_white_18dp);
+        toolbar.setTitleTextAppearance(this, R.style.appbarText);
+        toolbar.setSubtitleTextAppearance(this, R.style.appbarSubText);
     }
 
     @Override
@@ -86,6 +90,14 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         initToolbar(weathers.getCity().getName());
         weathersAdapter.setNull();
         weathersAdapter.addWeathers(weathers);
+        if (weathers.getDate() == 0)
+            toolbar.setSubtitle("Только что");
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM H:mm", Locale.getDefault());
+            Date d = new Date(weathers.getDate());
+            String updateTime = "Обновлено " + dateFormat.format(new Date(weathers.getDate()));
+            toolbar.setSubtitle(updateTime);
+        }
     }
 
     @Override

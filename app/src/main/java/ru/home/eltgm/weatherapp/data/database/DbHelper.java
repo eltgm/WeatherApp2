@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -17,7 +16,6 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
     private static final int DATABASE_VERSION = 1;
     private final String WEATHERS_TABLE = "weathersTable";
     private final Context mContext;
-    private final long dif = 1500000000000L;
 
     public DbHelper(Context context) {
         super(context, "weatherDB.db", null, DATABASE_VERSION);
@@ -50,13 +48,11 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
 
         cv.put("CITY_NAME", message.getCity().getName());
         cv.put("CITY_WEATHER", weatherJSON);
-        long t = System.currentTimeMillis() - dif;
-        cv.put("DATE", t);
+        cv.put("DATE", System.currentTimeMillis());
         SQLiteDatabase database = this.getWritableDatabase();
         long v = database.insert(WEATHERS_TABLE,
                 null,
                 cv);
-        String s = "vvv";
     }
 
     @Override
@@ -80,13 +76,12 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
             int dateIndex = c.getColumnIndex("DATE");
 
             do {
-                Log.e("DATABASE_TAG", " date = " + (c.getInt(dateIndex) + dif));
                 City city = new City();
                 city.setName(c.getString(cityNameIndex));
                 message.setCity(city);
                 Gson gson = new Gson();
                 message.setList(gson.fromJson(c.getString(cityWeatherIndex), ru.home.eltgm.weatherapp.models.weather.List.ListList.class));
-                message.setDate(c.getInt(dateIndex));
+                message.setDate(c.getLong(dateIndex));
             } while (c.moveToNext());
         }
 
@@ -122,9 +117,6 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
                 new String[]{cityName},
                 null, null, null);
 
-        String s = "";
-
-
         if (c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("_id");
             int cityNameIndex = c.getColumnIndex("CITY_NAME");
@@ -132,13 +124,13 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
             int dateIndex = c.getColumnIndex("DATE");
 
             do {
-                Log.e("DATABASE_TAG", " date = " + (c.getInt(dateIndex) + dif));
+
                 City city = new City();
                 city.setName(c.getString(cityNameIndex));
                 message.setCity(city);
                 Gson gson = new Gson();
                 message.setList(gson.fromJson(c.getString(cityWeatherIndex), ru.home.eltgm.weatherapp.models.weather.List.ListList.class));
-                message.setDate(c.getInt(dateIndex));
+                message.setDate(c.getLong(dateIndex));
             } while (c.moveToNext());
         }
 
