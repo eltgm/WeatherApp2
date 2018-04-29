@@ -27,5 +27,5 @@ public interface MainView extends MvpView {
 
     void showError(String error);
 
-
+    void showDay(List list);
 }

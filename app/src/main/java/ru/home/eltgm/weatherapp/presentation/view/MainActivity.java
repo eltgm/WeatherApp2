@@ -49,6 +49,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private String cityName;
+
     private WeathersAdapter weathersAdapter;
 
     @Override
@@ -66,7 +68,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         ButterKnife.bind(this);
 
         mDays.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        weathersAdapter = new WeathersAdapter(this);
+        weathersAdapter = new WeathersAdapter(this, new WeathersAdapter.ItemClicked() {
+            @Override
+            public void onItemClick(int pos) {
+                mPresenter.getDayForecast(pos);
+            }
+        });
         mDays.setAdapter(weathersAdapter);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -79,6 +86,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     private void initToolbar(String cityName) {
         toolbar.setPadding(ViewUtil.dpToPx(5), ViewUtil.dpToPx(15), 0, 0);
+        this.cityName = cityName;
         toolbar.setTitle(cityName);
         toolbar.setNavigationIcon(R.drawable.ic_location_on_white_18dp);
         toolbar.setTitleTextAppearance(this, R.style.appbarText);
@@ -122,6 +130,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     public void showError(String error) {
         Toast.makeText(this, "Произошла ошибка - " + error, Toast.LENGTH_SHORT).show();
         Log.d("WTF", "showError: " + error);
+    }
+
+    @Override
+    public void showDay(List list) {
+
     }
 
     @Override

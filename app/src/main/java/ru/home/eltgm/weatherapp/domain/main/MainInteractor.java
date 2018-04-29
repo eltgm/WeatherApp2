@@ -83,4 +83,12 @@ public class MainInteractor {
         addDisposable(observable
                 .subscribeWith(observer));
     }
+
+    public void getDayInfo(DisposableObserver<java.util.List<List>> observer, int day) {
+        Observable<java.util.List<List>> observable = weatherRepository.getDayForecast(day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        addDisposable(observable
+                .subscribeWith(observer));
+    }
 }

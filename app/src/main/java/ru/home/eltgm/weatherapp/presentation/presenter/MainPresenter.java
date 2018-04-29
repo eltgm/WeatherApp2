@@ -45,8 +45,12 @@ public class MainPresenter extends BasePresenter<MainView> {
         mainInteractor.getWeathers(new WeatherListObserver(), isRefresh);
     }
 
-    public void getNowForecast() {
+    private void getNowForecast() {
         mainInteractor.getNowInfo(new NowInfoObserver());
+    }
+
+    public void getDayForecast(final int day) {
+        mainInteractor.getDayInfo(new DayInfoObserver(), day);
     }
 
     private final class WeatherListObserver extends DisposableObserver<Message> {
@@ -75,6 +79,24 @@ public class MainPresenter extends BasePresenter<MainView> {
         @Override
         public void onNext(List<ru.home.eltgm.weatherapp.models.weather.List> lists) {
             getViewState().initDay(lists.get(0));
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    }
+
+    private final class DayInfoObserver extends DisposableObserver<List<ru.home.eltgm.weatherapp.models.weather.List>> {
+
+        @Override
+        public void onNext(List<ru.home.eltgm.weatherapp.models.weather.List> lists) {
+
         }
 
         @Override

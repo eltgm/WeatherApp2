@@ -82,4 +82,8 @@ public class WeatherRepository {
         return cacheWeatherDataStore.dayInfo(0);
     }
 
+    public Observable<java.util.List<List>> getDayForecast(int day) {
+        return cacheWeatherDataStore.dayInfo(day);
+    }
+
 }

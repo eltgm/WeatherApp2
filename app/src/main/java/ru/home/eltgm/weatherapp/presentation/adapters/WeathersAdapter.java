@@ -27,12 +27,15 @@ import ru.home.eltgm.weatherapp.presentation.util.DaysOfWeek;
 
 public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHolder> {
 
+    private final ItemClicked clickCallback;
+
     private int dif = 0;
     private Message weathers;
     private Context context;
 
-    public WeathersAdapter(Context context) {
+    public WeathersAdapter(Context context, ItemClicked clickCallback) {
         this.context = context;
+        this.clickCallback = clickCallback;
     }
 
     @Override
@@ -41,14 +44,14 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
                 .from(parent.getContext())
                 .inflate(R.layout.day_item_layout, parent, false);
 
-        ViewHolder h = new ViewHolder(v);
-        //final int pos = h.getAdapterPosition();
+        final ViewHolder h = new ViewHolder(v);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //ru.home.eltgm.weatherapp.models.weather.List w = weathers.getList().get(pos);
-
                 //TODO обработка нажатия на день
+                int pos = h.getAdapterPosition();
+                clickCallback.onItemClick(pos + 1);
             }
         });
 
@@ -215,5 +218,9 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
         void setTemp(String tvTemp) {
             this.tvTemp.setText(tvTemp);
         }
+    }
+
+    public interface ItemClicked {
+        void onItemClick(int pos);
     }
 }
