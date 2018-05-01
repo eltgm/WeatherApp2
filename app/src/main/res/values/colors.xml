@@ -7,4 +7,5 @@
     <color name="background">#061324</color>
     <color name="subtitleColor">#40FFFFFF</color>
     <color name="appbarColor">#7FFFFFFF</color>
+    <color name="white">#7fFFFFFF</color>
 </resources>

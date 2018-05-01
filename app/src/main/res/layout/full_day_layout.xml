@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="100dp"
+        android:text="День"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvNight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tvDay"
+        android:layout_marginEnd="63dp"
+        android:text="Ночь"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvDayOfWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="Вторник"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/tvTempDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="153dp"
+        android:text="20 °C"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvTempNight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tvTempDay"
+        android:layout_marginEnd="56dp"
+        android:text="10 °C"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="213dp"
+        android:text="1000 мм рт.ст." />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_marginEnd="37dp"
+        android:text="760 мм рт.ст." />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="37dp"
+        android:text="Влажность 69%"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="23dp"
+        android:text="Влажность 69%"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/white" />
+</RelativeLayout>
