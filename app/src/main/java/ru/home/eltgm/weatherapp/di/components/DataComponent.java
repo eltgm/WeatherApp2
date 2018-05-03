@@ -9,6 +9,7 @@ import ru.home.eltgm.weatherapp.data.cache.CacheImpl;
 import ru.home.eltgm.weatherapp.data.database.DbHelper;
 import ru.home.eltgm.weatherapp.data.network.RestApi;
 import ru.home.eltgm.weatherapp.di.modules.DataModule;
+import ru.home.eltgm.weatherapp.di.scopes.DataScope;
 
 /**
  * Created by eltgm on 28.03.18
@@ -17,6 +18,7 @@ import ru.home.eltgm.weatherapp.di.modules.DataModule;
 
 @Component(dependencies = {AppComponent.class}, modules = {DataModule.class})
 @Singleton
+@DataScope
 public interface DataComponent {
     DbHelper provideDbHelper();
 

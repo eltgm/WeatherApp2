@@ -3,6 +3,7 @@ package ru.home.eltgm.weatherapp.di.components;
 import dagger.Component;
 import ru.home.eltgm.weatherapp.di.modules.InteractorModule;
 import ru.home.eltgm.weatherapp.di.scopes.InteractorScope;
+import ru.home.eltgm.weatherapp.presentation.presenter.DayPresenter;
 import ru.home.eltgm.weatherapp.presentation.presenter.MainPresenter;
 
 /**
@@ -13,4 +14,6 @@ import ru.home.eltgm.weatherapp.presentation.presenter.MainPresenter;
 @InteractorScope
 public interface InteractorComponent {
     void inject(MainPresenter presenter);
+
+    void inject(DayPresenter presenter);
 }

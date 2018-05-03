@@ -10,7 +10,9 @@ import io.reactivex.observers.DisposableObserver;
 import ru.home.eltgm.weatherapp.App;
 import ru.home.eltgm.weatherapp.domain.main.MainInteractor;
 import ru.home.eltgm.weatherapp.models.weather.Message;
+import ru.home.eltgm.weatherapp.presentation.Screens;
 import ru.home.eltgm.weatherapp.presentation.view.MainView;
+import ru.terrakok.cicerone.Router;
 
 /**
  * Created by eltgm on 23.03.18
@@ -23,8 +25,11 @@ public class MainPresenter extends BasePresenter<MainView> {
     MainInteractor mainInteractor;
     private boolean isRefresh = false;
 
-    public MainPresenter() {
+    private final Router router;
+
+    public MainPresenter(Router router) {
         App.getInteractorComponent().inject(this);
+        this.router = router;
     }
 
     @Override
@@ -50,7 +55,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void getDayForecast(final int day) {
-        mainInteractor.getDayInfo(new DayInfoObserver(), day);
+        router.navigateTo(Screens.DAY_SCREEN, day);
     }
 
     private final class WeatherListObserver extends DisposableObserver<Message> {
@@ -79,24 +84,6 @@ public class MainPresenter extends BasePresenter<MainView> {
         @Override
         public void onNext(List<ru.home.eltgm.weatherapp.models.weather.List> lists) {
             getViewState().initDay(lists.get(0));
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
-    }
-
-    private final class DayInfoObserver extends DisposableObserver<List<ru.home.eltgm.weatherapp.models.weather.List>> {
-
-        @Override
-        public void onNext(List<ru.home.eltgm.weatherapp.models.weather.List> lists) {
-
         }
 
         @Override

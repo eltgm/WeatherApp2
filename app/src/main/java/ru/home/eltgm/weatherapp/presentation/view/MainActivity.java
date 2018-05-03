@@ -1,5 +1,6 @@
 package ru.home.eltgm.weatherapp.presentation.view;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,12 +22,19 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.home.eltgm.weatherapp.App;
 import ru.home.eltgm.weatherapp.R;
 import ru.home.eltgm.weatherapp.models.weather.List;
 import ru.home.eltgm.weatherapp.models.weather.Message;
+import ru.home.eltgm.weatherapp.presentation.Screens;
 import ru.home.eltgm.weatherapp.presentation.adapters.WeathersAdapter;
 import ru.home.eltgm.weatherapp.presentation.presenter.MainPresenter;
 import ru.home.eltgm.weatherapp.presentation.util.ViewUtil;
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.Router;
+import ru.terrakok.cicerone.commands.Back;
+import ru.terrakok.cicerone.commands.Command;
+import ru.terrakok.cicerone.commands.Forward;
 
 
 /**
@@ -34,8 +43,43 @@ import ru.home.eltgm.weatherapp.presentation.util.ViewUtil;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
+    Router router = App.INSTANCE.provideRouter();
+
     @InjectPresenter
     MainPresenter mPresenter;
+    private Navigator navigator = new Navigator() {
+
+
+        @Override
+        public void applyCommand(Command command) {
+            if (command instanceof Forward) {
+                forward((Forward) command);
+            } else if (command instanceof Back) {
+                back();
+            } else {
+                Log.e("Cicerone", "Illegal command for this screen: " + command.getClass().getSimpleName());
+            }
+        }
+
+        private void forward(Forward command) {
+            switch (command.getScreenKey()) {
+                case Screens.DAY_SCREEN:
+                    Intent intent = new Intent(MainActivity.this, DayActivity.class);
+                    intent.putExtra("day", (int) command.getTransitionData());
+                    startActivity(intent);
+                    break;
+                default:
+                    Log.e("Cicerone", "Unknown screen: " + command.getScreenKey());
+                    break;
+            }
+        }
+
+        private void back() {
+            finish();
+        }
+    };
+
+
     @BindView(R.id.rvDays)
     RecyclerView mDays;
     @BindView(R.id.swipe_container)
@@ -53,13 +97,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     private WeathersAdapter weathersAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
-
-        ButterKnife.bind(this);
 
         initViews();
     }
@@ -141,7 +183,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
-
     }
 
     private Drawable iconInit(String iconName) {
@@ -205,5 +246,22 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         }
 
         return icon;
+    }
+
+    @ProvidePresenter
+    public MainPresenter createMainPresenter() {
+        return new MainPresenter(router);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        App.INSTANCE.provideNavigatorHolder().removeNavigator();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        App.INSTANCE.provideNavigatorHolder().setNavigator(navigator);
     }
 }
