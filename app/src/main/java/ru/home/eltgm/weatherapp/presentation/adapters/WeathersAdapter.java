@@ -48,8 +48,6 @@ public class WeathersAdapter extends RecyclerView.Adapter<WeathersAdapter.ViewHo
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ru.home.eltgm.weatherapp.models.weather.List w = weathers.getList().get(pos);
-                //TODO обработка нажатия на день
                 int pos = h.getAdapterPosition();
                 clickCallback.onItemClick(pos + 1);
             }
