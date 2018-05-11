@@ -29,7 +29,7 @@ public class CacheImpl implements Cache {
     @SuppressWarnings("unchecked")
     @Override
     public Observable<java.util.List<List>> getDayInfo(String cityName, int day) {
-        if (weathersCache.get(KEY) != null) {
+        if (weathersCache.get(cityName) != null) {
             Message m = weathersCache.get(cityName);
             if (day == 0)
                 //noinspection unchecked

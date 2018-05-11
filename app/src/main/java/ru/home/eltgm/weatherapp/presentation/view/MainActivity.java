@@ -68,7 +68,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
             switch (command.getScreenKey()) {
                 case Screens.DAY_SCREEN:
                     intent = new Intent(MainActivity.this, DayActivity.class);
-                    intent.putExtra("day", (int) command.getTransitionData());
+                    intent.putExtra("info", (Bundle) command.getTransitionData());
                     break;
                 case Screens.SEARCH_SCREEN:
                     intent = new Intent(MainActivity.this, SearchActivity.class);
