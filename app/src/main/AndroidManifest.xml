@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.view.DayActivity" />
-        <activity android:name=".presentation.view.SearchActivity" />
+        <activity android:name=".presentation.view.SearchActivity"></activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

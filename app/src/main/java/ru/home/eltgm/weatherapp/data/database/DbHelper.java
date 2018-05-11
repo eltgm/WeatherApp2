@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
 import ru.home.eltgm.weatherapp.models.weather.City;
 import ru.home.eltgm.weatherapp.models.weather.Message;
@@ -89,7 +92,8 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
 
     @Override
     public Observable<Message> getAllCities() {
-        Message message = new Message();
+        List<Message> messages = new ArrayList<>();
+
 
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor c = database.query(WEATHERS_TABLE,
@@ -99,24 +103,28 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
                 null, null, null);
 
         if (c.moveToFirst()) {
+
             int idColIndex = c.getColumnIndex("_id");
             int cityNameIndex = c.getColumnIndex("CITY_NAME");
             int cityWeatherIndex = c.getColumnIndex("CITY_WEATHER");
             int dateIndex = c.getColumnIndex("DATE");
 
             do {
+                Message message = new Message();
                 City city = new City();
                 city.setName(c.getString(cityNameIndex));
                 message.setCity(city);
                 Gson gson = new Gson();
                 message.setList(gson.fromJson(c.getString(cityWeatherIndex), ru.home.eltgm.weatherapp.models.weather.List.ListList.class));
                 message.setDate(c.getLong(dateIndex));
+                messages.add(message);
             } while (c.moveToNext());
         }
 
         c.close();
-
-        return Observable.fromArray(message);
+        if (messages.size() <= 0)
+            return Observable.empty();
+        return Observable.fromIterable(messages);
     }
 
     @Override

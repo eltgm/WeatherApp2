@@ -43,11 +43,11 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rvCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         citiesAdapter = new CitiesAdapter(this, new CitiesAdapter.ItemClicked() {
             @Override
-            public void onItemClick(int pos) {
-                mPresenter.showCity(pos);
+            public void onItemClick(String cityName) {
+                mPresenter.showCity(SearchActivity.this, cityName);
             }
         });
         rvCities.setAdapter(citiesAdapter);

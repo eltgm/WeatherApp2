@@ -1,5 +1,7 @@
 package ru.home.eltgm.weatherapp.presentation.presenter;
 
+import android.os.Bundle;
+
 import com.arellomobile.mvp.InjectViewState;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     private boolean isRefresh = false;
 
     private final Router router;
+    private String cityName;
 
     public MainPresenter(Router router) {
         App.getInteractorComponent().inject(this);
@@ -36,7 +39,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        mainInteractor.getWeathers(new WeatherListObserver(), isRefresh);
+        mainInteractor.getWeathers(new WeatherListObserver(), isRefresh, cityName);
     }
 
     @Override
@@ -47,19 +50,27 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void onRefresh() {
         isRefresh = true;
-        mainInteractor.getWeathers(new WeatherListObserver(), isRefresh);
+        mainInteractor.getWeathers(new WeatherListObserver(), isRefresh, cityName);
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     private void getNowForecast() {
-        mainInteractor.getNowInfo(new NowInfoObserver());
+        mainInteractor.getNowInfo(new NowInfoObserver(), cityName);
     }
 
     public void getDayForecast(final int day) {
-        router.navigateTo(Screens.DAY_SCREEN, day);
+        Bundle b = new Bundle();
+        b.putInt("day", day);
+        b.putString("cityName", cityName);
+        router.navigateTo(Screens.DAY_SCREEN, b);
 
     }
 
     public void onSearchClicked() {
+
         router.navigateTo(Screens.SEARCH_SCREEN);
     }
 

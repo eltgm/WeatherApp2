@@ -110,8 +110,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
-        initViews();
+        String cityName = getIntent().getStringExtra("cityName");
+        if (cityName != null) {
+            initViews(cityName);
+        } else
+            cityName = "London";
+        initViews(cityName);
     }
 
 
@@ -133,7 +137,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         }
     }
 
-    private void initViews() {
+    private void initViews(String cityName) {
         ButterKnife.bind(this);
 
         mDays.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -150,6 +154,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
                 startRefresh();
             }
         });
+        mPresenter.setCityName(cityName);
         mPresenter.attachView(this);
     }
 

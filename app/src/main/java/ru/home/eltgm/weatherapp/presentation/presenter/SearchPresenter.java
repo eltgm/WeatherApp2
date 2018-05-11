@@ -1,5 +1,9 @@
 package ru.home.eltgm.weatherapp.presentation.presenter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 
 import javax.inject.Inject;
@@ -8,6 +12,7 @@ import io.reactivex.observers.DisposableObserver;
 import ru.home.eltgm.weatherapp.App;
 import ru.home.eltgm.weatherapp.domain.main.MainInteractor;
 import ru.home.eltgm.weatherapp.models.weather.Message;
+import ru.home.eltgm.weatherapp.presentation.view.MainActivity;
 import ru.home.eltgm.weatherapp.presentation.view.SearchView;
 
 @InjectViewState
@@ -27,8 +32,11 @@ public class SearchPresenter extends BasePresenter<SearchView> {
         getCitiesInfo();
     }
 
-    public void showCity(int pos) {
-
+    public void showCity(Context context, String cityName) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("cityName", cityName);
+        context.startActivity(intent);
+        Log.d("CITY_NAME", "showCity: " + cityName);
     }
 
     private void getCitiesInfo() {

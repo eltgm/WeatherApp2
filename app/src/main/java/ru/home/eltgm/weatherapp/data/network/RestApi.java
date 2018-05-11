@@ -18,8 +18,8 @@ public class RestApi {
         this.retrofit = retrofit;
     }
 
-    public Observable<Message> getWeather() {
+    public Observable<Message> getWeather(String cityName) {
         WeatherApi api = retrofit.create(WeatherApi.class);
-        return api.getWeathers("Moscow", "ru", "metric", "96fe47a7f97d2800464e51d37cf3f0f4");
+        return api.getWeathers(cityName, "ru", "metric", "96fe47a7f97d2800464e51d37cf3f0f4");
     }
 }

@@ -23,13 +23,12 @@ public class DatabaseWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<java.util.List<List>> dayInfo(int day) {
+    public Observable<java.util.List<List>> dayInfo(String cityName, int day) {
         throw new UnsupportedOperationException("Operation is not available!!!");
     }
 
     @Override
-    public void put(Message message) {
-        String cityName = message.getCity().getName();
+    public void put(Message message, String cityName) {
         if (database.isSaved(cityName))
             database.updateWeather(message);
         else
@@ -37,7 +36,7 @@ public class DatabaseWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public boolean isCached() {
-        return false;
+    public boolean isCached(String cityName) {
+        throw new UnsupportedOperationException("Operation is not available!!!");
     }
 }

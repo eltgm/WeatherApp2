@@ -38,8 +38,8 @@ public class MainInteractor {
         disposables.add(disposable);
     }
 
-    public void getWeathers(DisposableObserver<Message> observer, boolean isRefresh) {
-        addDisposable(weatherRepository.getWeathers(isRefresh)
+    public void getWeathers(DisposableObserver<Message> observer, boolean isRefresh, String cityName) {
+        addDisposable(weatherRepository.getWeathers(isRefresh, cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Message, Message>() {
@@ -73,16 +73,16 @@ public class MainInteractor {
                 .subscribeWith(observer));
     }
 
-    public void getNowInfo(DisposableObserver<java.util.List<List>> observer) {
-        Observable<java.util.List<List>> observable = weatherRepository.getNowForecast()
+    public void getNowInfo(DisposableObserver<java.util.List<List>> observer, String cityName) {
+        Observable<java.util.List<List>> observable = weatherRepository.getNowForecast(cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         addDisposable(observable
                 .subscribeWith(observer));
     }
 
-    public void getDayInfo(DisposableObserver<java.util.List<List>> observer, int day) {
-        Observable<java.util.List<List>> observable = weatherRepository.getDayForecast(day)
+    public void getDayInfo(DisposableObserver<java.util.List<List>> observer, int day, String cityName) {
+        Observable<java.util.List<List>> observable = weatherRepository.getDayForecast(cityName, day)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         addDisposable(observable

@@ -9,11 +9,11 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
  */
 
 public interface Cache {
-    void put(Message value);
+    void put(Message value, String cityName);
 
-    Observable<java.util.List<List>> getDayInfo(int day);
+    Observable<java.util.List<List>> getDayInfo(String cityName, int day);
 
-    Observable<Message> getAllInfo();
+    Observable<Message> getAllInfo(String cityName);
 
-    boolean isCached();
+    boolean isCached(String cityName);
 }

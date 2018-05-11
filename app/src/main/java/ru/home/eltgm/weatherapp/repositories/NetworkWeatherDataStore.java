@@ -20,7 +20,7 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
 
     @Override
     public Observable<Message> weathersList(String cityName) {
-        return restApi.getWeather()
+        return restApi.getWeather(cityName)
                 .doOnNext(new Consumer<Message>() {
                     @Override
                     public void accept(Message message) {
@@ -35,17 +35,17 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<java.util.List<List>> dayInfo(int day) {
+    public Observable<java.util.List<List>> dayInfo(String cityName, int day) {
         throw new UnsupportedOperationException("Operation is not available!!!");
     }
 
     @Override
-    public void put(Message message) {
+    public void put(Message message, String cityName) {
         throw new UnsupportedOperationException("Operation is not available!!!");
     }
 
     @Override
-    public boolean isCached() {
+    public boolean isCached(String cityName) {
         throw new UnsupportedOperationException("Operation is not available!!!");
     }
 }

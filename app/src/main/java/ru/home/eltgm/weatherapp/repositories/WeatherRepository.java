@@ -22,11 +22,11 @@ public class WeatherRepository {
         this.databaseWeatherDataStore = databaseWeatherDataStore;
     }
 
-    public Observable<Message> getWeathers(boolean isRefresh) {
+    public Observable<Message> getWeathers(boolean isRefresh, final String cityName) {
         Observable<Message> observable = null;
         final boolean[] error = {false};
         if (isRefresh)
-            observable = networkWeatherDataStore.weathersList("Moscow")
+            observable = networkWeatherDataStore.weathersList(cityName)
                     .doOnError(new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) {
@@ -36,21 +36,21 @@ public class WeatherRepository {
                     .onErrorResumeNext(new ObservableSource<Message>() {
                         @Override
                         public void subscribe(Observer<? super Message> observer) {
-                            databaseWeatherDataStore.weathersList("Moscow")
+                            databaseWeatherDataStore.weathersList(cityName)
                                     .subscribe(observer);
                         }
                     })
                     .doOnNext(new Consumer<Message>() {
                 @Override
                 public void accept(Message message) {
-                    cacheWeatherDataStore.put(message);
+                    cacheWeatherDataStore.put(message, cityName);
                     if (!error[0])
-                        databaseWeatherDataStore.put(message);
+                        databaseWeatherDataStore.put(message, cityName);
                 }
             });
 
-        if (!cacheWeatherDataStore.isCached() && !isRefresh)
-            observable = networkWeatherDataStore.weathersList("Moscow")
+        if (!cacheWeatherDataStore.isCached(cityName) && !isRefresh)
+            observable = networkWeatherDataStore.weathersList(cityName)
                     .doOnError(new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) {
@@ -60,30 +60,30 @@ public class WeatherRepository {
                     .onErrorResumeNext(new ObservableSource<Message>() {
                         @Override
                         public void subscribe(Observer<? super Message> observer) {
-                            databaseWeatherDataStore.weathersList("Moscow")
+                            databaseWeatherDataStore.weathersList(cityName)
                                     .subscribe(observer);
                         }
                     })
                     .doOnNext(new Consumer<Message>() {
                         @Override
                         public void accept(Message message) {
-                            cacheWeatherDataStore.put(message);
+                            cacheWeatherDataStore.put(message, cityName);
                             if (!error[0])
-                                databaseWeatherDataStore.put(message);
+                                databaseWeatherDataStore.put(message, cityName);
                 }
             });
         else if (!isRefresh)
-            observable = cacheWeatherDataStore.weathersList("Moscow");
+            observable = cacheWeatherDataStore.weathersList(cityName);
 
         return observable;
     }
 
-    public Observable<java.util.List<List>> getNowForecast() {
-        return cacheWeatherDataStore.dayInfo(0);
+    public Observable<java.util.List<List>> getNowForecast(String cityName) {
+        return cacheWeatherDataStore.dayInfo(cityName, 0);
     }
 
-    public Observable<java.util.List<List>> getDayForecast(int day) {
-        return cacheWeatherDataStore.dayInfo(day);
+    public Observable<java.util.List<List>> getDayForecast(String cityName, int day) {
+        return cacheWeatherDataStore.dayInfo(cityName, day);
     }
 
     public Observable<Message> getAllCities() {

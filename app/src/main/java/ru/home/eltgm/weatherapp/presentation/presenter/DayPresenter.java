@@ -18,18 +18,20 @@ public class DayPresenter extends BasePresenter<DayView> {
     @Inject
     MainInteractor mainInteractor;
     private int day;
+    private final String cityName;
 
-    public DayPresenter(Router router, int day) {
+    public DayPresenter(Router router, int day, String cityName) {
         App.getInteractorComponent().inject(this);
         this.router = router;
         this.day = day;
+        this.cityName = cityName;
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        mainInteractor.getDayInfo(new DayInfoObserver(), day);
+        mainInteractor.getDayInfo(new DayInfoObserver(), day, cityName);
     }
 
     @Override

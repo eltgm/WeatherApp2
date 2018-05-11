@@ -18,7 +18,7 @@ public class CacheWeatherDataStore implements WeatherDataStore {
 
     @Override
     public Observable<Message> weathersList(String cityName) {
-        return cache.getAllInfo();
+        return cache.getAllInfo(cityName);
     }
 
     @Override
@@ -27,17 +27,17 @@ public class CacheWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<java.util.List<List>> dayInfo(int day) {
-        return cache.getDayInfo(day);
+    public Observable<java.util.List<List>> dayInfo(String cityName, int day) {
+        return cache.getDayInfo(cityName, day);
     }
 
     @Override
-    public void put(Message message) {
-        cache.put(message);
+    public void put(Message message, String cityName) {
+        cache.put(message, cityName);
     }
 
     @Override
-    public boolean isCached() {
-        return cache.isCached();
+    public boolean isCached(String cityName) {
+        return cache.isCached(cityName);
     }
 }

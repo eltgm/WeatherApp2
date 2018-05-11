@@ -41,7 +41,8 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 int pos = h.getAdapterPosition();
-                callback.onItemClick(pos);
+                String cityName = messages.get(pos).getCity().getName();
+                callback.onItemClick(cityName);
             }
         });
 
@@ -70,7 +71,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
 
     public void addCity(Message message) {
         this.messages.add(message);
-        notifyItemInserted(this.getItemCount() - 1);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -142,7 +143,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.ViewHolder
     }
 
     public interface ItemClicked {
-        void onItemClick(int pos);
+        void onItemClick(String cityName);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

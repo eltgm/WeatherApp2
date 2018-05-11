@@ -22,15 +22,15 @@ public class CacheImpl implements Cache {
     }
 
     @Override
-    public void put(Message value) {
-        weathersCache.put(KEY, value);
+    public void put(Message value, String cityName) {
+        weathersCache.put(cityName, value);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Observable<java.util.List<List>> getDayInfo(int day) {
+    public Observable<java.util.List<List>> getDayInfo(String cityName, int day) {
         if (weathersCache.get(KEY) != null) {
-            Message m = weathersCache.get(KEY);
+            Message m = weathersCache.get(cityName);
             if (day == 0)
                 //noinspection unchecked
                 return Observable.fromArray(Collections.singletonList(m.getList().get(0)));
@@ -57,12 +57,12 @@ public class CacheImpl implements Cache {
     }
 
     @Override
-    public Observable<Message> getAllInfo() {
-        return Observable.fromArray(weathersCache.get(KEY));
+    public Observable<Message> getAllInfo(String cityName) {
+        return Observable.fromArray(weathersCache.get(cityName));
     }
 
     @Override
-    public boolean isCached() {
-        return weathersCache.get(KEY) != null;
+    public boolean isCached(String cityName) {
+        return weathersCache.get(cityName) != null;
     }
 }

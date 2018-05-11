@@ -64,7 +64,7 @@ public class DayActivity extends MvpAppCompatActivity implements DayView {
 
     @ProvidePresenter
     public DayPresenter createMainPresenter() {
-        return new DayPresenter(router, getIntent().getIntExtra("day", 0));
+        return new DayPresenter(router, getIntent().getExtras().getInt("day"), getIntent().getExtras().getString("cityName"));
     }
 
     @Override

@@ -14,9 +14,9 @@ public interface WeatherDataStore {
 
     Observable<Message> citiesInfo();
 
-    Observable<java.util.List<List>> dayInfo(int day);
+    Observable<java.util.List<List>> dayInfo(String cityName, int day);
 
-    void put(Message message);
+    void put(Message message, String cityName);
 
-    boolean isCached();
+    boolean isCached(String cityName);
 }
