@@ -9,6 +9,8 @@ public interface Database {
 
     Observable<Message> getWeather(String cityName);
 
+    Observable<Message> getAllCities();
+
     void updateWeather(Message message);
 
     boolean isSaved(String cityName);

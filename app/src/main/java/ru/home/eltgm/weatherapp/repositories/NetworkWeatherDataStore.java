@@ -30,6 +30,11 @@ public class NetworkWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
+    public Observable<Message> citiesInfo() {
+        throw new UnsupportedOperationException("Operation is not available!!!");
+    }
+
+    @Override
     public Observable<java.util.List<List>> dayInfo(int day) {
         throw new UnsupportedOperationException("Operation is not available!!!");
     }

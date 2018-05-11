@@ -56,6 +56,11 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     public void getDayForecast(final int day) {
         router.navigateTo(Screens.DAY_SCREEN, day);
+
+    }
+
+    public void onSearchClicked() {
+        router.navigateTo(Screens.SEARCH_SCREEN);
     }
 
     private final class WeatherListObserver extends DisposableObserver<Message> {

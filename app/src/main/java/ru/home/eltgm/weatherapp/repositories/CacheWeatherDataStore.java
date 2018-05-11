@@ -22,6 +22,11 @@ public class CacheWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
+    public Observable<Message> citiesInfo() {
+        throw new UnsupportedOperationException("Operation is not available!!!");
+    }
+
+    @Override
     public Observable<java.util.List<List>> dayInfo(int day) {
         return cache.getDayInfo(day);
     }

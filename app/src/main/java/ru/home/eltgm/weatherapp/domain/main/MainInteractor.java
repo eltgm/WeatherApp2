@@ -27,11 +27,8 @@ public class MainInteractor {
     }
 
     public void dispose() {
-        if (!disposables.isDisposed()) {
+        if (!disposables.isDisposed())
             disposables.clear();
-        }
-
-        String s = "t";
     }
 
     /**
@@ -86,6 +83,14 @@ public class MainInteractor {
 
     public void getDayInfo(DisposableObserver<java.util.List<List>> observer, int day) {
         Observable<java.util.List<List>> observable = weatherRepository.getDayForecast(day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        addDisposable(observable
+                .subscribeWith(observer));
+    }
+
+    public void getCitiesInfo(final DisposableObserver<Message> observer) {
+        Observable<Message> observable = weatherRepository.getAllCities()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         addDisposable(observable

@@ -1,7 +1,6 @@
 package ru.home.eltgm.weatherapp.repositories;
 
 import io.reactivex.Observable;
-import io.reactivex.observers.DisposableObserver;
 import ru.home.eltgm.weatherapp.data.database.Database;
 import ru.home.eltgm.weatherapp.models.weather.List;
 import ru.home.eltgm.weatherapp.models.weather.Message;
@@ -16,6 +15,11 @@ public class DatabaseWeatherDataStore implements WeatherDataStore {
     @Override
     public Observable<Message> weathersList(String cityName) {
         return database.getWeather(cityName);
+    }
+
+    @Override
+    public Observable<Message> citiesInfo() {
+        return database.getAllCities();
     }
 
     @Override
@@ -35,24 +39,5 @@ public class DatabaseWeatherDataStore implements WeatherDataStore {
     @Override
     public boolean isCached() {
         return false;
-    }
-
-    private final class DatabaseObserver extends DisposableObserver<Message> {
-
-        @Override
-        public void onNext(Message message) {
-            String cityName = message.getCity().getName();
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
     }
 }

@@ -66,8 +66,37 @@ public class DbHelper extends SQLiteOpenHelper implements Database {
                 new String[]{cityName},
                 null, null, null);
 
-        String s = "";
+        if (c.moveToFirst()) {
+            int idColIndex = c.getColumnIndex("_id");
+            int cityNameIndex = c.getColumnIndex("CITY_NAME");
+            int cityWeatherIndex = c.getColumnIndex("CITY_WEATHER");
+            int dateIndex = c.getColumnIndex("DATE");
 
+            do {
+                City city = new City();
+                city.setName(c.getString(cityNameIndex));
+                message.setCity(city);
+                Gson gson = new Gson();
+                message.setList(gson.fromJson(c.getString(cityWeatherIndex), ru.home.eltgm.weatherapp.models.weather.List.ListList.class));
+                message.setDate(c.getLong(dateIndex));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+
+        return Observable.fromArray(message);
+    }
+
+    @Override
+    public Observable<Message> getAllCities() {
+        Message message = new Message();
+
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor c = database.query(WEATHERS_TABLE,
+                new String[]{"_id", "CITY_WEATHER", "CITY_NAME", "DATE"},
+                null,
+                null,
+                null, null, null);
 
         if (c.moveToFirst()) {
             int idColIndex = c.getColumnIndex("_id");

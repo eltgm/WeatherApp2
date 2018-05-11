@@ -12,6 +12,8 @@ import ru.home.eltgm.weatherapp.models.weather.Message;
 public interface WeatherDataStore {
     Observable<Message> weathersList(String cityName);
 
+    Observable<Message> citiesInfo();
+
     Observable<java.util.List<List>> dayInfo(int day);
 
     void put(Message message);

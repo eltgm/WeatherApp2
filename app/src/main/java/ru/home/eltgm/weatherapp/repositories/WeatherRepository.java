@@ -86,4 +86,7 @@ public class WeatherRepository {
         return cacheWeatherDataStore.dayInfo(day);
     }
 
+    public Observable<Message> getAllCities() {
+        return databaseWeatherDataStore.citiesInfo();
+    }
 }

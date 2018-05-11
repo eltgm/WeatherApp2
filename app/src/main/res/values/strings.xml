@@ -3,4 +3,5 @@
     <string name="weather">Погода</string>
     <string name="day">День</string>
     <string name="night">Ночь</string>
+    <string name="choose_city">Выберите город</string>
 </resources>

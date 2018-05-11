@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,9 +49,9 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @InjectPresenter
     MainPresenter mPresenter;
+
+
     private Navigator navigator = new Navigator() {
-
-
         @Override
         public void applyCommand(Command command) {
             if (command instanceof Forward) {
@@ -62,16 +64,22 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         }
 
         private void forward(Forward command) {
+            Intent intent = null;
             switch (command.getScreenKey()) {
                 case Screens.DAY_SCREEN:
-                    Intent intent = new Intent(MainActivity.this, DayActivity.class);
+                    intent = new Intent(MainActivity.this, DayActivity.class);
                     intent.putExtra("day", (int) command.getTransitionData());
-                    startActivity(intent);
+                    break;
+                case Screens.SEARCH_SCREEN:
+                    intent = new Intent(MainActivity.this, SearchActivity.class);
                     break;
                 default:
                     Log.e("Cicerone", "Unknown screen: " + command.getScreenKey());
                     break;
+
             }
+            if (intent != null)
+                startActivity(intent);
         }
 
         private void back() {
@@ -106,6 +114,25 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         initViews();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                mPresenter.onSearchClicked();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void initViews() {
         ButterKnife.bind(this);
 
@@ -133,6 +160,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         toolbar.setNavigationIcon(R.drawable.ic_location_on_white_18dp);
         toolbar.setTitleTextAppearance(this, R.style.appbarText);
         toolbar.setSubtitleTextAppearance(this, R.style.appbarSubText);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -182,7 +210,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestroy();
+        mPresenter.disconnect();
     }
 
     private Drawable iconInit(String iconName) {
