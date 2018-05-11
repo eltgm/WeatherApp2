@@ -2,6 +2,7 @@ package ru.home.eltgm.weatherapp.presentation.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -13,6 +14,7 @@ import ru.home.eltgm.weatherapp.App;
 import ru.home.eltgm.weatherapp.domain.main.MainInteractor;
 import ru.home.eltgm.weatherapp.models.weather.Message;
 import ru.home.eltgm.weatherapp.presentation.view.MainActivity;
+import ru.home.eltgm.weatherapp.presentation.view.SearchDialog;
 import ru.home.eltgm.weatherapp.presentation.view.SearchView;
 
 @InjectViewState
@@ -21,7 +23,10 @@ public class SearchPresenter extends BasePresenter<SearchView> {
     @Inject
     MainInteractor mainInteractor;
 
-    public SearchPresenter() {
+    private final android.support.v4.app.FragmentManager fm;
+
+    public SearchPresenter(android.support.v4.app.FragmentManager fm) {
+        this.fm = fm;
         App.getInteractorComponent().inject(this);
     }
 
@@ -30,6 +35,11 @@ public class SearchPresenter extends BasePresenter<SearchView> {
         super.onFirstViewAttach();
 
         getCitiesInfo();
+    }
+
+    public void searchCity() {
+        AppCompatDialogFragment fragment = new SearchDialog();
+        fragment.show(fm, "dialog");
     }
 
     public void showCity(Context context, String cityName) {

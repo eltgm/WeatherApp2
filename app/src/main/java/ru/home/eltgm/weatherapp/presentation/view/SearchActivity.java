@@ -1,13 +1,16 @@
 package ru.home.eltgm.weatherapp.presentation.view;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +24,18 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
     @InjectPresenter
     SearchPresenter mPresenter;
 
+    @BindView(R.id.fabSearch)
+    FloatingActionButton fabSearch;
+
     @BindView(R.id.toolbar2)
     Toolbar toolbar;
     @BindView(R.id.rvCities)
     RecyclerView rvCities;
+
+    @ProvidePresenter
+    public SearchPresenter providePresenter() {
+        return new SearchPresenter(getSupportFragmentManager());
+    }
 
     private CitiesAdapter citiesAdapter;
 
@@ -52,6 +63,12 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
         });
         rvCities.setAdapter(citiesAdapter);
 
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.searchCity();
+            }
+        });
         mPresenter.attachView(this);
     }
 
